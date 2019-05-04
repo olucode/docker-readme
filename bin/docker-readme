@@ -4,18 +4,47 @@ const program = require('commander');
 const chalk = require('chalk');
 
 const pkg = require('../package');
+const cli = require('../src')
 
 program
     .version(pkg.version, '-v, --version')
     .description(pkg.description)
     .usage('docker-readme [command]')
-    //
-    // Basic Commands
-    //
-    .command('init', 'Initialize and setup the application')
-    .command('show [image]', 'Render a specific image [image]')
-    .command('list', 'List all available image documentation')
-    .command('update', 'Show a random image documentation')
+
+//
+// Basic Commands
+//
+program
+    .command('init')
+    .description('Initialize and setup the application')
+    .action(async () => {
+        await cli.init();
+    })
+
+program
+    .command('show [image]')
+    .description('Render a specific image [image]')
+    .action(async (image) => {
+        await cli.show(image);
+    })
+
+program
+    .command('list')
+    .description('List all available image documentation')
+    .action(async () => {
+        await cli.list();
+    })
+
+program
+    .command('update')
+    .description('Update documentation library')
+    .action(() => {
+        //
+    })
+
+program.help();
+
+program.parse(process.argv)
 
 const help = `
   Examples:
@@ -28,12 +57,3 @@ const help = `
 program.on('--help', () => {
     console.log(chalk.blue(help));
 });
-
-program.parse(process.argv);
-
-if (program.list) {
-    // tldr.list(program.singleColumn);
-} else {
-    program.outputHelp();
-    process.exit(1);
-}
