@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs');
-const fsPromises = require('fs/promises');
+const fsPromises = require('fs').promises;
 
 const {
     DoesNotExist,
@@ -19,7 +19,7 @@ const getRootDocPath = async () => {
         return docPath;
     } catch (error) {
         if (error.code === "ENOENT") {
-            throw DoesNotExist("File Does Not Exist");
+            throw new DoesNotExist("File Does Not Exist");
         }
         throw error;
     }
@@ -28,14 +28,14 @@ const getRootDocPath = async () => {
 const getImagePath = async (image) => {
     try {
         const rootPath = await getRootDocPath();
-        const imagePath = `${rootPath}/${image}`;
+        const imagePath = `${rootPath}/${image}/README.md`;
 
         await fsPromises.access(imagePath, fs.constants.R_OK);
 
         return imagePath;
     } catch (error) {
         if (error.code === "ENOENT") {
-            throw ImageDoesNotExist(image);
+            throw new ImageDoesNotExist(image);
         }
         throw error;
     }
