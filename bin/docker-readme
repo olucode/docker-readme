@@ -1,6 +1,39 @@
 #!/usr/bin/env node
 
 const program = require('commander');
+const chalk = require('chalk');
+
+const pkg = require('../package');
 
 program
-    .version('0.1.0')
+    .version(pkg.version, '-v, --version')
+    .description(pkg.description)
+    .usage('docker-readme [command]')
+    //
+    // Basic Commands
+    //
+    .command('init', 'Initialize and setup the application')
+    .command('show [image]', 'Render a specific image [image]')
+    .command('list', 'List all available image documentation')
+    .command('update', 'Show a random image documentation')
+
+const help = `
+  Examples:
+
+    $ docker-readme init
+    $ docker-readme list
+    $ docker-readme update
+`;
+
+program.on('--help', () => {
+    console.log(chalk.blue(help));
+});
+
+program.parse(process.argv);
+
+if (program.list) {
+    // tldr.list(program.singleColumn);
+} else {
+    program.outputHelp();
+    process.exit(1);
+}
