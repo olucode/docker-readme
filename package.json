@@ -4,22 +4,21 @@
   "description": "Read docker documentation offline.",
   "main": "src/index.js",
   "bin": {
-    "@olucode/docker-readme": "bin/docker-readme",
-    "docker-readme": "bin/docker-readme"
+    "docker-readme": "./bin/docker-readme"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "aargh": "^1.1.0",
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
-    "ora": "^3.4.0",
-    "shelljs": "^0.8.3",
-    "yargs": "^13.2.2"
+    "fs-extra": "^7.0.1",
+    "markdown-it": "^8.4.2",
+    "ora": "^3.4.0"
   },
   "devDependencies": {
     "jest": "^24.7.1"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",

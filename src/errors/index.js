@@ -1,7 +1,7 @@
 'use strict';
 
 class DoesNotExist extends Error {
-    constructor(message) {
+    constructor(message = "") {
         super(message); // (1)
         this.name = "DoesNotExist"; // (2)
     }
