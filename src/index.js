@@ -8,13 +8,11 @@ const {
     getImagePath
 } = require('./readFile');
 const runCommand = require('./runCommand');
-const fetchReadme = require('./fetchReadme');
+const render = require('./render');
 
 const errorHandler = require('./errors/errorHandler');
 
-const {
-    dockerLibRemote
-} = require('./config');
+const config = require('./config');
 
 
 const init = async () => {
@@ -22,7 +20,7 @@ const init = async () => {
         const libPath = await getRootDocPath();
         spinner.start('Downloading Official Docker Docs \n');
 
-        await runCommand(`git clone ${dockerLibRemote} ${libPath}`)
+        await runCommand(`git clone ${config.DOCKER_LIB_REMOTE} ${libPath}`)
         spinner.succeed();
     } catch (error) {
         errorHandler(error);
@@ -32,7 +30,7 @@ const init = async () => {
 const show = async (image) => {
     try {
         const imagePath = await getImagePath(image);
-        await fetchReadme(imagePath);
+        await render(imagePath);
     } catch (error) {
         errorHandler(error);
     }

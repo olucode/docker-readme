@@ -1,47 +1,59 @@
 'use strict';
 
-const fs = require('fs');
-const fsPromises = require('fs').promises;
-
 const {
     DoesNotExist,
     ImageDoesNotExist
 } = require('./errors');
 
-const {
-    docPath
-} = require('./config');
+const convert = require('./convert');
+const config = require('./config');
+const util = require('./utils');
 
 const getRootDocPath = async () => {
     try {
-        await fsPromises.access(docPath, fs.constants.R_OK | fs.constants.W_OK);
-
-        return docPath;
-    } catch (error) {
-        if (error.code === "ENOENT") {
-            throw new DoesNotExist("File Does Not Exist");
+        if (await util.pathExists(config.DOC_PATH)) {
+            return config.DOC_PATH;
         }
+
+        throw new DoesNotExist();
+    } catch (error) {
+        throw error;
+    }
+}
+
+const getMarkdownFile = async (image) => {
+    try {
+        const rootPath = await getRootDocPath();
+        const markdownFile = `${rootPath}/${image}/README.md`;
+
+        if (await util.pathExists(markdownFile)) {
+            return markdownFile;
+        }
+
+        throw new ImageDoesNotExist(image);
+    } catch (error) {
         throw error;
     }
 }
 
 const getImagePath = async (image) => {
     try {
-        const rootPath = await getRootDocPath();
-        const imagePath = `${rootPath}/${image}/README.md`;
+        const markdownFile = await getMarkdownFile(image);
 
-        await fsPromises.access(imagePath, fs.constants.R_OK);
+        let cachedImage = `${config.CACHE_FOLDER}/${image}.html`;
 
-        return imagePath;
-    } catch (error) {
-        if (error.code === "ENOENT") {
-            throw new ImageDoesNotExist(image);
+        if (!await util.pathExists(cachedImage)) {
+            cachedImage = convert(markdownFile, image);
         }
+
+        return cachedImage;
+    } catch (error) {
         throw error;
     }
 }
 
 module.exports = {
     getRootDocPath,
+    getMarkdownFile,
     getImagePath
 };
