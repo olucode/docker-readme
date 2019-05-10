@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const program = require('commander');
-const chalk = require('chalk');
 
 const pkg = require('../package');
 const cli = require('../src')
@@ -42,8 +41,6 @@ program
         //
     })
 
-program.help();
-
 program.parse(process.argv)
 
 const help = `
@@ -55,5 +52,9 @@ const help = `
 `;
 
 program.on('--help', () => {
-    console.log(chalk.blue(help));
+    console.log(help);
 });
+
+if (!program.args.length) {
+    program.help();
+}
