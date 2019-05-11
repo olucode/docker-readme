@@ -5,23 +5,28 @@ const spinner = ora();
 
 const {
     getRootDocPath,
-    getImagePath
+    getImagePath,
+    listDocs
 } = require('./readFile');
 const runCommand = require('./runCommand');
 const render = require('./render');
 
 const errorHandler = require('./errors/errorHandler');
-
 const config = require('./config');
+const util = require('./utils');
 
 
 const init = async () => {
     try {
-        const libPath = await getRootDocPath();
+        if (util.pathExists(config.DOC_PATH)) {
+            console.log(`Everything's great!`)
+            return;
+        }
+
         spinner.start('Downloading Official Docker Docs \n');
 
-        await runCommand(`git clone ${config.DOCKER_LIB_REMOTE} ${libPath}`)
-        spinner.succeed();
+        await runCommand(`git clone ${config.DOCKER_LIB_REMOTE} ${config.DOC_PATH}`)
+        spinner.succeed("Init successful!");
     } catch (error) {
         errorHandler(error);
     }
@@ -43,14 +48,16 @@ const update = async () => {
         const libPath = await getRootDocPath();
 
         await runCommand(`cd ${libPath} && git pull -q`);
-        spinner.succeed();
+        spinner.succeed("Update Finished");
     } catch (error) {
         errorHandler(error);
     }
 }
 
 const list = async () => {
-    // Does Image exist
+    const availableDocs = await listDocs().join(', ');
+
+    console.log(availableDocs);
 }
 
 module.exports = {

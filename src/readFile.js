@@ -1,5 +1,8 @@
 'use strict';
 
+const path = require('path');
+const fs = require('fs-extra');
+
 const {
     DoesNotExist,
     ImageDoesNotExist
@@ -52,8 +55,22 @@ const getImagePath = async (image) => {
     }
 }
 
+const listDocs = async () => {
+    let dirs = [];
+    const docPath = config.DOC_PATH;
+
+    for (const file of await fs.readdir(docPath)) {
+        if ((await fs.stat(path.join(docPath, file))).isDirectory()) {
+            dirs = [...dirs, file]
+        }
+    }
+
+    return dirs;
+}
+
 module.exports = {
     getRootDocPath,
     getMarkdownFile,
-    getImagePath
+    getImagePath,
+    listDocs
 };
