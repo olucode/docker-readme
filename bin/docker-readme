@@ -3,7 +3,7 @@
 const program = require('commander');
 
 const pkg = require('../package');
-const cli = require('../src')
+const cli = require('../src');
 
 program
     .version(pkg.version, '-v, --version')

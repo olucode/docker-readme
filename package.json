@@ -7,7 +7,7 @@
     "docker-readme": "./bin/docker-readme"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "dependencies": {
     "aargh": "^1.1.0",

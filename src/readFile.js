@@ -56,16 +56,21 @@ const getImagePath = async (image) => {
 }
 
 const listDocs = async () => {
-    let dirs = [];
-    const docPath = config.DOC_PATH;
+    try {
+        let dirs = [];
+        const docPath = config.DOC_PATH;
 
-    for (const file of await fs.readdir(docPath)) {
-        if ((await fs.stat(path.join(docPath, file))).isDirectory()) {
-            dirs = [...dirs, file]
+        for (const file of await fs.readdir(docPath)) {
+            if ((await fs.stat(path.join(docPath, file))).isDirectory()) {
+                dirs = [...dirs, file]
+            }
         }
-    }
 
-    return dirs;
+        // Remove hidden directories
+        return dirs.filter((directory) => !directory.startsWith('.')).sort();
+    } catch (error) {
+        throw error;
+    }
 }
 
 module.exports = {
