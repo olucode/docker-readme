@@ -55,9 +55,11 @@ const update = async () => {
 }
 
 const list = async () => {
-    const availableDocs = await listDocs().join(', ');
+    const availableDocs = await listDocs();
 
-    console.log(availableDocs);
+    let docs = typeof availableDocs === 'object' ? Object.values(availableDocs) : availableDocs;
+
+    console.log(docs.join(', '));
 }
 
 module.exports = {
