@@ -37,8 +37,8 @@ program
 program
     .command('update')
     .description('Update documentation library')
-    .action(() => {
-        //
+    .action(async () => {
+        await cli.update();
     })
 
 program.parse(process.argv)

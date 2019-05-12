@@ -43,12 +43,15 @@ const show = async (image) => {
 
 const update = async () => {
     try {
-        spinner.start('Updating Docker Docs \n');
+        console.log('Updating Docker Docs');
 
         const libPath = await getRootDocPath();
 
-        await runCommand(`cd ${libPath} && git pull -q`);
-        spinner.succeed("Update Finished");
+        await runCommand(`git pull -q`, {
+            cwd: libPath
+        });
+
+        console.log("Update Finished");
     } catch (error) {
         errorHandler(error);
     }
