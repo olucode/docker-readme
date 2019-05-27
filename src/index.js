@@ -52,6 +52,7 @@ const update = async () => {
         });
 
         console.log("Update Finished");
+        return;
     } catch (error) {
         errorHandler(error);
     }

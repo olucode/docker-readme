@@ -20,7 +20,8 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "jest": "^24.7.1",
-    "mocha": "^6.1.4"
+    "mocha": "^6.1.4",
+    "sinon": "^7.3.2"
   },
   "keywords": [],
   "author": "",
