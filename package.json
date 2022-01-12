@@ -14,7 +14,7 @@
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
     "fs-extra": "^7.0.1",
-    "markdown-it": "^8.4.2",
+    "markdown-it": "^12.3.2",
     "ora": "^3.4.0"
   },
   "devDependencies": {
